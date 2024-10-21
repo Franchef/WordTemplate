@@ -5,39 +5,59 @@ using Microsoft.Office.Interop.Word;
 namespace WordTemplateDomain
 {
 
-    public class WordTemplateBinder
+    public class WordTemplateBinder : IDisposable
     {
+        private readonly string _file;
         private readonly Application _app;
         private readonly Document _document;
         private readonly Regex _regex;
-        private readonly string _newFileName;
         public WordTemplateBinder(string filePath)
         {
+            _file = filePath;
             _app = new Application();
-            _newFileName = Path.Combine(
-                Path.GetDirectoryName(filePath),
-                $"{Path.GetFileNameWithoutExtension(filePath)}_compilato.{Path.GetExtension(filePath)}"
-            );
             _document = _app.Documents.Open(filePath, ReadOnly: true);
             _regex = new Regex(@"\{[^}]*\}");
         }
 
+        public void Dispose()
+        {
+            _app.Quit();
+        }
+
         public IEnumerable<string> GetFields()
         {
-            foreach (Match match in _regex.Matches(_document.Content.Text))
+            return _regex.Matches(_document.Content.Text)
+                .Cast<Match>()
+                .Select(m => m.Value)
+                .Distinct();
+        }
+
+        private string GetNewFileName(string newFileName = null!)
+        {
+            if (string.IsNullOrWhiteSpace(newFileName))
             {
-                yield return match.Value;
+                return Path.Combine(
+                    Path.GetDirectoryName(_file),
+                    $"{Path.GetFileNameWithoutExtension(_file)}_compilato.{Path.GetExtension(_file)}"
+                );
+            }
+            else
+            {
+                return Path.Combine(
+                   Path.GetDirectoryName(_file),
+                   $"{newFileName}.{Path.GetExtension(_file)}"
+               );
             }
         }
 
-        public void ReplaceFields(Dictionary<string, string> fieldReplacements)
+        public void ReplaceFields(Dictionary<string, string> fieldReplacements, string newFileName = null!)
         {
             foreach (var fieldReplacement in fieldReplacements)
                 FindAndReplace(fieldReplacement.Key, fieldReplacement.Value);
 
             var text = _document.Content.Text;
             //_document.SaveAs2(_document.Name);
-            _document.SaveAs2(_newFileName);
+            _document.SaveAs2(GetNewFileName(newFileName));
             _document.Close();
         }
 
