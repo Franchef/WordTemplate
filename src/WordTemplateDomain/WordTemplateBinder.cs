@@ -32,7 +32,7 @@ namespace WordTemplateDomain
                 .Distinct();
         }
 
-        private string GetNewFileName(string newFileName = null!)
+        public string GetNewFileName(string newFileName = null!)
         {
             if (string.IsNullOrWhiteSpace(newFileName))
             {
