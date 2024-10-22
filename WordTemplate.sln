@@ -15,12 +15,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordTemplateConsole", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordTemplateDomain", "src\WordTemplateDomain\WordTemplateDomain.csproj", "{E7D403ED-8CEA-472E-B885-4030F2F8EE29}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{93B964BA-D219-4233-A30C-854919070510}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93B964BA-D219-4233-A30C-854919070510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93B964BA-D219-4233-A30C-854919070510}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5033CD4-882F-4F51-A549-C9BED5EAA7C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B5033CD4-882F-4F51-A549-C9BED5EAA7C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5033CD4-882F-4F51-A549-C9BED5EAA7C1}.Release|Any CPU.ActiveCfg = Release|Any CPU

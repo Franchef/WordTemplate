@@ -3,7 +3,7 @@ using WordTemplateDomain;
 
 internal class Program
 {
-    private static async Task Main(string[] args)
+    private static void Main(string[] args)
     {
         AnsiConsole.MarkupLine("[dodgerblue2]Word template utility[/]");
         if (args.Length > 0 && CanOpenFile(args[0]))
@@ -22,33 +22,46 @@ internal class Program
                 replacements.Add(kv.Key, kv.Value);
 
 
-            foreach (var replacement in replacements)
-            {
-                AnsiConsole.MarkupLine($"[chartreuse3]{replacement.Key}[/] [green]{replacement.Value}[/]");
-            }
+            //foreach (var replacement in replacements)
+            //{
+            //    AnsiConsole.MarkupLine($"[chartreuse3]{replacement.Key}[/] [green]{replacement.Value}[/]");
+            //}
 
-            bool rivedi = true;
-            while (rivedi)
+            Azione azione = Azione.Rivedi;
+            while (azione != Azione.Compila)
             {
-                rivedi = AnsiConsole.Prompt(
-                    new TextPrompt<bool>("Modificare qualcosa?")
-                        .AddChoice(true)
-                        .AddChoice(false)
-                        .DefaultValue(true)
-                        .WithConverter(choice => choice ? "y" : "n")
+                azione = Enum.Parse<Azione>(
+                    AnsiConsole.Prompt(
+                        new SelectionPrompt<string>()
+                            .Title("Prosegui con ")
+                            .AddChoices(new[] { nameof(Azione.Rivedi), nameof(Azione.Cambia), nameof(Azione.Compila) })
+                    )
                 );
 
-                if (rivedi)
+                switch (azione)
                 {
-                    var field = AnsiConsole.Prompt(
+                    case Azione.Rivedi:
+                        AnsiConsole.Clear();
+                        foreach (var replacement in replacements)
+                        {
+                            AnsiConsole.MarkupLine($"[chartreuse3]{replacement.Key}[/] [green]{replacement.Value}[/]");
+                        }
+                        break;
+                    case Azione.Cambia:
+                        var field = AnsiConsole.Prompt(
                            new SelectionPrompt<string>()
                             .Title("Seleziona sostituzione da [green]modificare[/]")
                             .PageSize(10)
                             .MoreChoicesText("[grey](Freccia su o freccia giù per scorrere([/]")
                             .AddChoices(fields)
                         );
-                    var value = AnsiConsole.Prompt(new TextPrompt<string>($"[chartreuse3]{field}[/] "));
-                    replacements[field] = value;
+                        var value = AnsiConsole.Prompt(new TextPrompt<string>($"[chartreuse3]{field}[/] "));
+                        replacements[field] = value;
+                        break;
+                    case Azione.Compila:
+                        break;
+                    default:
+                        break;
                 }
             }
             AnsiConsole.MarkupLine($"[dodgerblue2]Sto creando [/]{wtb.GetNewFileName()}");
@@ -71,7 +84,12 @@ internal class Program
             foreach (var kev in GetReplacementsRecursive(subGroup))
                 yield return kev;
     }
-
+    public enum Azione
+    {
+        Rivedi,
+        Cambia,
+        Compila
+    }
     public record FieldGroup
     {
         public FieldGroup()

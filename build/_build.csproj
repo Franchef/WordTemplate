@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace></RootNamespace>
+    <NoWarn>CS0649;CS0169;CA1050;CA1822;CA2211;IDE1006</NoWarn>
+    <NukeRootDirectory>..</NukeRootDirectory>
+    <NukeScriptDirectory>..</NukeScriptDirectory>
+    <NukeTelemetryVersion>1</NukeTelemetryVersion>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nuke.Build" Version="8.1.2" />
+    <PackageReference Include="Nuke.Build.Shared" Version="8.1.2" />
+    <PackageReference Include="Nuke.Common" Version="8.1.2" />
+    <PackageReference Include="Nuke.Components" Version="8.1.2" />
+    <PackageReference Include="Nuke.MSBuildLocator" Version="6.3.0" />
+    <PackageReference Include="Nuke.ProjectModel" Version="8.1.2" />
+    <PackageReference Include="Nuke.SolutionModel" Version="8.1.2" />
+    <PackageReference Include="Nuke.Tooling" Version="8.1.2" />
+    <PackageReference Include="Nuke.Utilities" Version="8.1.2" />
+    <PackageReference Include="Nuke.Utilities.Net" Version="8.1.2" />
+  </ItemGroup>
+
+</Project>
